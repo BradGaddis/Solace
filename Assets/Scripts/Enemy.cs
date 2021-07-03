@@ -1,0 +1,231 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/* TODO:
+ * Make every method in this class optional, but on by default 
+ * correct that enemies cannot pass through other colliders 
+ * Create pathfinder system for enemies to go home
+ * Create combat system for enemies to fight each other
+ */
+
+
+/* KNOWN BUGS --
+ * enemies continue to wander while in home radius, even when you're within chase radius
+ *  an else if statement or a statemachine might correct this issue
+ */
+
+
+public enum EnemyState
+{
+    engaged,
+    idle
+}
+
+public class Enemy : MonoBehaviour
+{
+
+    GameObject player;
+
+    public EnemyState enemyState;
+
+    public bool enableChase = true;
+    public bool enableWander = true;
+    public float chaseRadius = 2f;
+    public float attackRadius = 1f;
+    public float homeRadius = 3f;
+    public float moveSpeed = 2f;
+    public float wanderDuration = 3f;
+    private float lastWandered = 0f;
+    public bool canAttack = true;
+    public int minMax = 3;
+    private float distanceFromHome;
+    int ranRangeX = 0;
+    int ranRangeY = 0;
+    private float distEnemytoPlayer;
+
+    Vector2 currentPos;
+    Vector2 homePos;
+    Vector2 target;
+    Vector2 wanderTowards;
+    Rigidbody2D enemyRB;
+
+    public int totalHealth;
+    public int totalStamina;
+    public int totalDefense;
+    public int totalMagic;
+
+    
+
+    private void Awake()
+    {
+        player = GameObject.Find("Player");
+        
+    }
+
+
+    private void Start()
+    {
+        homePos = this.GetComponent<Rigidbody2D>().position;
+        enemyRB = this.GetComponent<Rigidbody2D>();
+        ranRangeX = 0;
+        ranRangeY = 0;
+        target = homePos;
+        wanderTowards = homePos;
+
+        // Check if attack radius is larger than chase radius, should always be smaller
+        if(attackRadius >= chaseRadius)
+        {
+            attackRadius = chaseRadius - 1;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+
+        currentPos = enemyRB.position;
+        distanceFromHome = Vector2.Distance(currentPos, homePos);
+
+        if(enableChase)
+        CheckChasePlayer(out distEnemytoPlayer, canAttack);
+
+
+
+    }
+
+    // Chases player within specific radius
+    public virtual void CheckChasePlayer(out float distEnemytoPlayer, bool canAttack)
+    {
+        // get player position stuff
+        Vector2 position = enemyRB.position;
+        Vector2 playerPos = player.GetComponent<Rigidbody2D>().position;
+        
+        // check distance between enemy and player gameObjects 
+        float distance = Vector2.Distance(position, playerPos);
+        Vector2 moveTowards = Vector2.MoveTowards(position, playerPos, moveSpeed * Time.fixedDeltaTime);
+
+        // handle attack, wander, and chase logic
+        if (distance <= chaseRadius && distance >= attackRadius )
+        {
+            enemyRB.MovePosition(moveTowards);
+        }
+        else if (distance > chaseRadius && !IsAtHome())
+        {
+
+            
+
+        }
+        else if(enableWander && distance > attackRadius)
+        {
+           WanderAround();
+        }
+        else if (distance <= attackRadius && canAttack)
+        {
+            attackPlayer();
+        }
+
+        // attack player if enemy is within attack radius
+        
+        distEnemytoPlayer = distance;
+    }
+
+
+
+    public virtual bool IsAtHome()
+    {
+        bool isHome;
+        // distance from home position that is set on awake to current position
+        if(distanceFromHome <= homeRadius)
+        {
+            isHome = true;
+            return isHome;
+        }
+        else
+        {
+            isHome = false;
+            return isHome;
+        }
+
+    }
+
+    public virtual void ReturnHome()
+    {
+        Vector2 moveTowards = Vector2.MoveTowards(currentPos, homePos, moveSpeed * Time.fixedDeltaTime);
+        enemyRB.MovePosition(moveTowards);
+
+    }
+
+
+    public void WanderAround()
+    {
+
+        if (Time.time - lastWandered <= wanderDuration)
+        {
+            // do not allow wander if in chase raidus
+
+
+            // do the wandering 
+
+            target = new Vector2(ranRangeX + currentPos.x, ranRangeY + currentPos.y);
+
+            if (!IsAtHome())
+            {
+                target = homePos;
+                Debug.Log("Enemy: " + this.name + " is going home");
+            }
+            else
+            {
+                Debug.Log("Enemy: " + this.name + " wandering");
+            }
+
+            //Debug.Log(target);
+            //Debug.Log(homePos);
+
+            wanderTowards = Vector2.MoveTowards(currentPos, target, moveSpeed * Time.fixedDeltaTime);
+
+
+            enemyRB.MovePosition((wanderTowards ) );
+
+
+
+            enemyState = EnemyState.idle;
+
+
+        }
+        else if (Time.time - wanderDuration >= lastWandered)
+        {
+                lastWandered = Time.time;
+
+
+                ranRangeX = Random.Range(-minMax, minMax + 1);
+                ranRangeY = Random.Range(-minMax, minMax + 1);
+
+
+        }
+        else
+        {
+
+          
+
+            return;
+
+
+            // faulty logic, I know
+        }
+
+        
+    }
+
+
+    private void attackPlayer()
+    {
+        // change state of enemy into attack state
+        // inflict some damage e
+        // knock player back
+    }
+
+}
+
+
+
+
