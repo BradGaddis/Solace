@@ -65,18 +65,18 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    bool furst = true;
+    bool firstIdle = true;
     private void HandleAnimation(float xAxis, float yAxis)
     {
         animator.SetFloat("walkX", xAxis);
         animator.SetFloat("walkY", yAxis);
 
 
-        if(furst && true)
+        if(firstIdle && true)
         {
             animator.SetFloat("idleX", xAxis);
             animator.SetFloat("idleY", yAxis);
-            furst = false;
+            firstIdle = false;
         }
 
         if(xAxis > 0 || xAxis < 0 || yAxis > 0 || yAxis < 0)
