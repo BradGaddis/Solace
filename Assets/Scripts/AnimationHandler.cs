@@ -6,6 +6,8 @@ public class AnimationHandler : MonoBehaviour
 {
     private Animator animator;
 
+    public GameObject Player;
+
     // Start is called before the first frame update
     void Start()
     {
