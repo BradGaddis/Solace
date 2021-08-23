@@ -4,7 +4,6 @@ using UnityEngine;
 
 
 /* FEATURES TO ADD:
- * Run mechanic
  * Dash mechanic
  * Attack mechanic
  * Screen change mechanic that starts a battle scene
@@ -19,40 +18,34 @@ public enum PlayerState
     IsWalking
 }
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Engine
 {
 
     // References to other GameObjects
-    private Rigidbody2D rb;
-    public AnimationHandler animationHandler;
     public PlayerState state;
-
+    private Health health;
 
     // properties
     [SerializeField]
     private float walkSpeed = 2f;
     [SerializeField]
     private float runSpeed = 5;
-    float xAxis = 0;
-    float yAxis = 0;
+   
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        health = GetComponent<Health>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        xAxis = Input.GetAxisRaw("Horizontal");
-        yAxis = Input.GetAxisRaw("Vertical");
+        xDir = Input.GetAxisRaw("Horizontal");
+        yDir = Input.GetAxisRaw("Vertical");
         HandleMovement();
-
-        Debug.Log(runSpeed);
-
     }
 
     private void HandleMovement()
@@ -66,31 +59,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Move(float speed)
-    {
-        Vector2 curPos = rb.position;
-
-        Vector2 delta = new Vector2();
-        delta.x = xAxis;
-        delta.y = yAxis;
-
-        delta.Normalize();
-
-        rb.MovePosition(curPos + delta.normalized * speed * Time.fixedDeltaTime);
-
-    }
-
     public void Walk()
     {
-        Move(walkSpeed);
+        base.Move(walkSpeed); 
         state = PlayerState.IsWalking;
     }
 
     public void Run()
     {
         Move(runSpeed);
-       // moveState = MoveState.IsWalking;
+        state = PlayerState.IsRunning;
     }
+
 
 
 }

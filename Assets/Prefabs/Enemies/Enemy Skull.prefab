@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8928719289288626112}
   - component: {fileID: 8928719289288626115}
-  - component: {fileID: 8928719289288626113}
   - component: {fileID: 8928719289288626118}
   - component: {fileID: 8928719289288626119}
+  - component: {fileID: 1305532252}
+  - component: {fileID: 1428186219}
   m_Layer: 0
   m_Name: Enemy Skull
   m_TagString: Untagged
@@ -74,8 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 3148209327967640025, guid: 50a96bd48bc69fd49b03a9d2187ef659,
-    type: 3}
+  m_Sprite: {fileID: 3148209327967640025, guid: 50a96bd48bc69fd49b03a9d2187ef659, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,32 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8928719289288626113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8928719289288626114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e292f2fd3f75f54eb7c58bc85dc79db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyState: 0
-  enableChase: 1
-  enableWander: 1
-  chaseRadius: 2
-  attackRadius: 1
-  homeRadius: 4
-  moveSpeed: 1
-  stepTimer: 3
-  timer: 0
-  minMax: 3
-  totalHealth: 0
-  totalStamina: 0
-  totalDefense: 0
-  totalMagic: 0
 --- !u!61 &8928719289288626118
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -146,7 +120,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8928719289288626114}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -157,5 +131,33 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1305532252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8928719289288626114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e35f9716806875c49a7a06ee8b651a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+  speed: 1
+  timer: 0
+--- !u!114 &1428186219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8928719289288626114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa73664a31f89f459caf08684135a35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amountDamage: 5
