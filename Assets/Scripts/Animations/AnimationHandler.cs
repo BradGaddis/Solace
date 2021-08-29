@@ -5,16 +5,21 @@ using UnityEngine.Animations;
 
 public class AnimationHandler : MonoBehaviour
 {
-
+    private PlayerController playerContoller;
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
     bool firstIdle = true;
     float xAxis;
     float yAxis;
+
+    public Sprite[] dashSprites;
 
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        playerContoller = GetComponent<PlayerController>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -22,13 +27,20 @@ public class AnimationHandler : MonoBehaviour
         xAxis = Input.GetAxisRaw("Horizontal");
         yAxis = Input.GetAxisRaw("Vertical");
 
-        HandleWalkAnim();
+        if (playerContoller.state == PlayerState.IsWalking)
+        {
+            HandlePlayerWalkAnim();
+        }
+        // else if(playerContoller.state == PlayerState.IsDashing)
+        //{
+        //    //HandlePlayerDashAnim();
+        //}
 
 
     }
 
 
-    private void HandleWalkAnim()
+    private void HandlePlayerWalkAnim()
     {
         if (firstIdle)
         {
@@ -46,5 +58,11 @@ public class AnimationHandler : MonoBehaviour
         animator.SetFloat("walkX", xAxis);
         animator.SetFloat("walkY", yAxis);
     }
+
+    //public void HandlePlayerDashAnim()
+    //{
+    //        //spriteRenderer.sprite = dashSprites[(int)Time.time % 10];
+    //}
+
 
 }

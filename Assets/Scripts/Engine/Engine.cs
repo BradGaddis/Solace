@@ -8,42 +8,69 @@ public class Engine : MonoBehaviour
     protected Rigidbody2D rb;
     protected float xDir = 0;
     protected float yDir = 0;
+    public bool noVelicity = true;
+    
 
     void Awake()
     {
         rb = this.GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
     }
 
     private void Update()
     {
-       
-        CheckVelocity();
+        if (rb != null)
+        {
+            if (noVelicity)
+            {
+                ResetVelocity();
+            }
+        }
     }
     private void FixedUpdate()
     {
-        CheckVelocity();
+        if (rb != null)
+        {
+            if (noVelicity)
+            {
+                ResetVelocity();
+            }
+        }
     }
 
     // all game objects should move fundamentally the same way
-    protected void Move(float speed = 2)
+        /// <summary>
+        /// This virtual method uses Unity input system to move this rigidbody
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <param name="enabled"></param>
+    protected virtual void Move(float speed = 2, bool enabled = true)
     {
-        Vector2 curPos = rb.position;
+        if (enabled)
+        {
+            Vector2 curPos = rb.position;
 
-        Vector2 delta = new Vector2();
-        delta.x = this.xDir;
-        delta.y = this.yDir;
+            Vector2 delta = new Vector2();
+            delta.x = this.xDir;
+            delta.y = this.yDir;
 
-        delta.Normalize();
+            delta.Normalize();
 
-        rb.MovePosition(curPos + delta.normalized * speed * Time.fixedDeltaTime);
+            rb.MovePosition(curPos + delta.normalized * speed * Time.fixedDeltaTime);
+        }
     }
 
 
-    protected void CheckVelocity()
+    protected void ResetVelocity()
     {
         if (rb.velocity.x != 0 || rb.velocity.y != 0)
         {
             rb.velocity = Vector2.zero;
         }
     }
+    protected virtual void EnableVelociy_Dash(float time = .5f)
+    {
+        noVelicity = false;
+    }
+    // add pushback mechanic
 }

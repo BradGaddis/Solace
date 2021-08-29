@@ -675,9 +675,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1554731415, guid: c6f1674769c04684e8a16fa84eec572c, type: 3}
+      propertyPath: startTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3013031834091458234, guid: c6f1674769c04684e8a16fa84eec572c, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013031834091458236, guid: c6f1674769c04684e8a16fa84eec572c, type: 3}
+      propertyPath: dashSpeed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3013031834091458237, guid: c6f1674769c04684e8a16fa84eec572c, type: 3}
       propertyPath: m_RootOrder

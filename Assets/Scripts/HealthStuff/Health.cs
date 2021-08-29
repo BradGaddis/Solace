@@ -6,6 +6,7 @@ public class Health : MonoBehaviour {
     private int maxHealth = 100;
     [SerializeField]
     protected float currentHealth = 100;
+    
 
     // This script needs to be attached to any object that will take damage/receive health
     private void Update()
@@ -21,6 +22,5 @@ public class Health : MonoBehaviour {
     public void DecreaseHealth(float decreaseAmount)
     {
         currentHealth -= decreaseAmount;
-        Debug.Log($"Is this running? {this.name}");
     }
 }

@@ -5,14 +5,28 @@ using UnityEngine;
 public class HitBox : MonoBehaviour
 {
     private Health health;
+
+    float timer;
+    public float startTime;
+
+    
     private void Start()
     {
         health = GetComponent<Health>();
+        timer = startTime;
     }
 
     public void DoDamage(DamageInfo damageInfo)
     {
         health.DecreaseHealth(damageInfo.delta);
-        Debug.Log($"Is this running? {this.name}");
+
+        timer -= Time.deltaTime;
+
+        if(timer <= 0)
+        {
+            Debug.Log("Happy thoughts");
+        }
+
+
     }
 }
