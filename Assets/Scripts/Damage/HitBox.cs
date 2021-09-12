@@ -16,7 +16,7 @@ public class HitBox : MonoBehaviour
         timer = startTime;
     }
 
-    public void DoDamage(DamageInfo damageInfo)
+    public void DoPlayerDamage(DamageInfo damageInfo)
     {
         health.DecreaseHealth(damageInfo.delta);
 
@@ -27,6 +27,10 @@ public class HitBox : MonoBehaviour
             Debug.Log("Happy thoughts");
         }
 
+    }
+
+    public void DoEnemyDamage()
+    {
 
     }
 }

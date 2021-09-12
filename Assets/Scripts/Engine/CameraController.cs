@@ -4,8 +4,10 @@ using UnityEngine;
 
 
 /* TODO:
- * add slight buffer before the cameras moves...at least on the x axis to see how it looks
+ * Lerp the camera to give just a slight buffer before the camera moves after the player moves
+ * Camera should be bounded in single rooms like the cabin
  */
+
 public class CameraController : MonoBehaviour
 {
     GameObject player;
@@ -19,9 +21,11 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        Vector2 playerPos = player.transform.position;
-        //cam.transform.position = new Vector3(playerPos.x, playerPos.y, cam.transform.position.z);
-        transform.position = new Vector3(playerPos.x, playerPos.y, transform.position.z);
+        Vector3 playerPos = player.transform.position;
+
+        Vector3 newPos = new Vector3(playerPos.x, playerPos.y, playerPos.z - 3f);
+
+        Camera.main.transform.position = newPos;
 
     }
 }

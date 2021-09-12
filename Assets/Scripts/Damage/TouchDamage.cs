@@ -15,7 +15,7 @@ public class TouchDamage : DamageSource
 
             var damageInfo = new DamageInfo() { Source = this, delta = amountDamage };
 
-            hitBox.DoDamage(damageInfo);
+            hitBox.DoPlayerDamage(damageInfo);
             Debug.Log(this.Description());
         }
     }
